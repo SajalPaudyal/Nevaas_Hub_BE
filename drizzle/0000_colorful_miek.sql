@@ -14,6 +14,7 @@ CREATE TABLE `properties` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`owner_id` int NOT NULL,
 	`title` varchar(255) NOT NULL,
+	`description` varchar(300),
 	`price` decimal(10,2) NOT NULL,
 	`address` varchar(255) NOT NULL,
 	`beds` int NOT NULL,

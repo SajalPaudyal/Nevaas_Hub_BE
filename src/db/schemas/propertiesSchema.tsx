@@ -7,7 +7,9 @@ import {
   mysqlEnum,
   boolean,
 } from "drizzle-orm/mysql-core";
+import { relations } from "drizzle-orm";
 import { users } from "./userSchema";
+import { roommate } from "./roommateSchema";
 
 export const propertyTypeEnums = mysqlEnum("property_type", [
   "apartment",
@@ -22,6 +24,7 @@ export const properties = mysqlTable("properties", {
     .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
   title: varchar("title", { length: 255 }).notNull(),
+  description: varchar("description", { length: 300 }),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   address: varchar("address", { length: 255 }).notNull(),
   beds: int("beds").notNull(),
@@ -34,3 +37,10 @@ export const properties = mysqlTable("properties", {
 
   isRoommateOption: boolean("is_roommate_option").default(false),
 });
+
+export const propertiesRelations = relations(properties, ({ one }) => ({
+  roommateDetails: one(roommate, {
+    fields: [properties.id],
+    references: [roommate.propertyId],
+  }),
+}));

@@ -1,12 +1,8 @@
 import "dotenv/config";
-import express from "express";
+import express, { Response } from "express";
 import cors from "cors";
-
-import { upload } from "./src/middlewares/upload.js";
-import { register } from "./src/controllers/auth.controller.js";
-import { login } from "./src/controllers/login.controller.js";
-import { sql } from "drizzle-orm";
-import { db } from "./src/db/index.js";
+import authRoutes from "./src/routes/auth.routes";
+import propertyRoutes from "./src/routes/property.routes";
 
 const app = express();
 
@@ -18,11 +14,10 @@ app.get("/", (req, res) => {
   res.send("NevaasHub API is working");
 });
 
-
-app.post("/api/auth/register", upload.single("idCard"), register);
-app.post("/api/auth/login", login);
+app.use("/api/auth", authRoutes);
+app.use("/api/properties", propertyRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 NevaasHub listening on port ${PORT}!`);
+  console.log(`NevaasHub listening on port ${PORT}!`);
 });

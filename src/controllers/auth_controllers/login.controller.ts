@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import {db} from '../db/index';
+import {db} from '../../db/index';
 import {eq} from 'drizzle-orm';
-import { users } from "../db/schema";
+import { users } from "../../db/schema";
 import 'dotenv/config';
 
 
@@ -22,7 +22,7 @@ export const login  = async (req:Request, res:Response) =>{
         }
 
         const token = jwt.sign({
-            userId:user.id, email:user.email}, process.env.JWT_SECRET!, {expiresIn:"24h"});
+            id:user.id, email:user.email}, process.env.JWT_SECRET!, {expiresIn:"24h"});
 
             res.status(200).json({message:"Successfully Logged In", token, user:{id:user.id, name:user.fullName}})
     }

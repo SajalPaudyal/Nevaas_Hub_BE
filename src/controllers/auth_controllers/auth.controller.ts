@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import { db } from "../db/index";
-import { users } from "../db/schema";
+import { db } from "../../db/index";
+import { users } from "../../db/schema";
 import { eq } from "drizzle-orm";
 
 export const register = async (req: Request, res: Response) => {
