@@ -2,12 +2,9 @@ import {
   mysqlTable,
   varchar,
   int,
-  decimal,
   boolean,
-  serial,
   mysqlEnum,
 } from "drizzle-orm/mysql-core";
-import { users } from "./userSchema";
 import { properties } from "./propertiesSchema";
 
 export const genderEnums = mysqlEnum("genderEnums", [

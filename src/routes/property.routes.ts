@@ -13,7 +13,7 @@ import { deleteProperty } from "../controllers/property_controllers/deleteproper
 const router: Router = Router();
 
 router.get("/", getAllProperties);
-router.get("/id", getSingleProperty);
+router.get("/:id", getSingleProperty);
 
 router.post(
   "/",
@@ -22,10 +22,10 @@ router.post(
   createProperty
 );
 router.put(
-  "/id",
+  "/:id",
   checkAuthenticatedUsers,
-  upload.single("propertyImage"),
-  updateProperty
+  updateProperty,
+  upload.single("propertyImage")
 );
 router.delete("/id", checkAuthenticatedUsers, deleteProperty);
 

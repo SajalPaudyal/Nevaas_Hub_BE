@@ -3,6 +3,8 @@ import bcrypt from "bcryptjs";
 import { db } from "../../db/index";
 import { users } from "../../db/schema";
 import { eq } from "drizzle-orm";
+import fs from "fs";
+import path from "path";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -18,27 +20,37 @@ export const register = async (req: Request, res: Response) => {
       .select()
       .from(users)
       .where(eq(users.email, email));
+
     if (existing) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "User with the email id is already registered. Please try signing in.",
-        });
+      return res.status(400).json({
+        message:
+          "User with the email id is already registered. Please try signing in.",
+      });
     }
 
+    const folder = "uploads/id_documents";
+    if (!fs.existsSync(folder)) {
+      fs.mkdirSync(folder, { recursive: true });
+    }
+
+    const uniqueFileName = `${Date.now()}-${Math.round(
+      Math.random() * 1e9
+    )}${path.extname(req.file.originalname)}`;
+
+    const filePath = path.join(folder, uniqueFileName);
+
     const hashedPassword = await bcrypt.hash(password, 12);
+
+    fs.writeFileSync(filePath, req.file.buffer);
 
     await db.insert(users).values({
       fullName,
       email: email,
       password: hashedPassword,
-      idDocumentPath: req.file?.path,
+      idDocumentPath: filePath,
     });
 
-    res.status(200).json({message:"New user successfully registered"})
-
-    
+    res.status(200).json({ message: "New user successfully registered" });
   } catch (e: any) {
     res.status(500).json({ message: e.message });
   }

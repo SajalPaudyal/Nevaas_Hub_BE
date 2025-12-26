@@ -1,18 +1,34 @@
 import { Response } from "express";
 import { db } from "../../db/index";
-import { properties } from "../../db/schema";
-import { roommate } from "../../db/schema";
+import { properties, roommate } from "../../db/schema";
+import fs from "fs";
+import path from "path";
 import { AuthenticationRequest } from "../../middlewares/checkAuthenticatedUsers";
 
 export const createProperty = async (
   req: AuthenticationRequest,
   res: Response
 ) => {
-  console.log("Headers:", req.headers.authorization);
-  console.log("User Object:", req.user);
+  let propertyPath: string | null = null;
+
   try {
     if (!req.file) {
       return res.status(400).json({ message: "Property image is needed." });
+    }
+
+    const ownerId = req.user?.id;
+    const userStatus = req.user?.status;
+
+    if (!ownerId) {
+      return res
+        .status(401)
+        .json({ message: "You need to sign in to add a property." });
+    }
+
+    if (userStatus !== "accepted") {
+      return res.status(403).json({
+        message: "Please wait, your account is pending admin approval.",
+      });
     }
 
     const {
@@ -27,13 +43,18 @@ export const createProperty = async (
       longitude,
       isRoommateOption,
     } = req.body;
-    const ownerId = req.user?.id;
 
-    const imageUrl = req.file.path;
-
-    if (!ownerId) {
-      return res.status(401).json({ message: "You need to sign in to....." });
+    const folder = "uploads/properties";
+    if (!fs.existsSync(folder)) {
+      fs.mkdirSync(folder, { recursive: true });
     }
+
+    const propertyName = `${Date.now()}-${Math.round(
+      Math.random() * 1e9
+    )}${path.extname(req.file.originalname)}`;
+    propertyPath = path.join(folder, propertyName);
+
+    fs.writeFileSync(propertyPath, req.file.buffer);
 
     await db.transaction(async (tx) => {
       const [newProp] = await tx.insert(properties).values({
@@ -47,8 +68,8 @@ export const createProperty = async (
         type,
         latitude,
         longitude,
-        isRoommateOption: isRoommateOption == "false",
-        imageUrl,
+        isRoommateOption: isRoommateOption === "true",
+        imageUrl: propertyPath!,
       });
 
       if (isRoommateOption === "true") {
@@ -63,24 +84,31 @@ export const createProperty = async (
           prefMinAge,
           prefMaxAge,
         } = req.body;
+
         await tx.insert(roommate).values({
           propertyId: newProp.insertId,
           occupation,
           education,
-          age,
+          age: parseInt(age),
           gender,
           faculty: faculty || "Others",
-          isSmoker: isSmoker === "false",
-          hasPets: hasPets === "false",
-          prefMinAge,
-          prefMaxAge,
+          isSmoker: isSmoker === "true",
+          hasPets: hasPets === "true",
+          prefMinAge: parseInt(prefMinAge),
+          prefMaxAge: parseInt(prefMaxAge),
         });
       }
     });
+
     res.status(201).json({ message: "Property added successfully." });
   } catch (e: any) {
+    if (propertyPath && fs.existsSync(propertyPath)) {
+      fs.unlinkSync(propertyPath);
+    }
+
+    console.error("Creation Error:", e);
     res.status(400).json({
-      message: "Could not crete a property. Please be properly authenticated.",
+      message: "Could not create property.",
       error: e.message,
     });
   }
