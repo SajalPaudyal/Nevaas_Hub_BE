@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { db } from "../../db/index";
 import { AuthenticationRequest } from "../../middlewares/checkAuthenticatedUsers";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { properties } from "../../db/schema";
 
 export const getAllProperties = async (
@@ -10,7 +10,7 @@ export const getAllProperties = async (
 ) => {
   try {
     const data = await db.query.properties.findMany({
-      with: { roommateDetails: true },
+      orderBy: [desc(properties.id)],
     });
     res.json(data);
   } catch (e: any) {
@@ -22,11 +22,23 @@ export const getAllProperties = async (
 
 export const getSingleProperty = async (req: any, res: Response) => {
   try {
+    const propertyId = parseInt(req.params.id);
+
+    if (isNaN(propertyId)) {
+      res
+        .status(500)
+        .json({ message: "could not get property with the given ID." });
+    }
+
     const data = await db.query.properties.findFirst({
-      where: eq(properties.id, parseInt(req.params.id)),
-      with: { roommateDetails: true },
+      where: eq(properties.id, propertyId),
     });
-    res.json(data);
+
+    if (!data) {
+      return res.status(404).json({ message: "Property not found" });
+    }
+
+    res.status(200).json(data);
   } catch (e: any) {
     res
       .status(500)

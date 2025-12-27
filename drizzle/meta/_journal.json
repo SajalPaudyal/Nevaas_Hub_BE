@@ -15,6 +15,13 @@
       "when": 1766767520726,
       "tag": "0001_heavy_bromley",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1766865989572,
+      "tag": "0002_wise_shotgun",
+      "breakpoints": true
     }
   ]
 }

@@ -3,6 +3,7 @@ import express, { Response } from "express";
 import cors from "cors";
 import authRoutes from "./src/routes/auth.routes";
 import propertyRoutes from "./src/routes/property.routes";
+import roommateOpeningRoutes from "./src/routes/roommate_vacancies.routes";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/properties", propertyRoutes);
+app.use("/api/roommate-openings", roommateOpeningRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

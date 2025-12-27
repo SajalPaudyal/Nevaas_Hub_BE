@@ -24,9 +24,9 @@ router.post(
 router.put(
   "/:id",
   checkAuthenticatedUsers,
-  updateProperty,
-  upload.single("propertyImage")
+  upload.single("propertyImage"),
+  updateProperty
 );
-router.delete("/id", checkAuthenticatedUsers, deleteProperty);
+router.delete("/:id", checkAuthenticatedUsers, deleteProperty);
 
 export default router;

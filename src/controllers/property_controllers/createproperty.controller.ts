@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { db } from "../../db/index";
-import { properties, roommate } from "../../db/schema";
+import { properties } from "../../db/schema";
 import fs from "fs";
 import path from "path";
 import { AuthenticationRequest } from "../../middlewares/checkAuthenticatedUsers";
@@ -41,7 +41,6 @@ export const createProperty = async (
       type,
       latitude,
       longitude,
-      isRoommateOption,
     } = req.body;
 
     const folder = "uploads/properties";
@@ -68,36 +67,8 @@ export const createProperty = async (
         type,
         latitude,
         longitude,
-        isRoommateOption: isRoommateOption === "true",
         imageUrl: propertyPath!,
       });
-
-      if (isRoommateOption === "true") {
-        const {
-          occupation,
-          age,
-          gender,
-          faculty,
-          education,
-          isSmoker,
-          hasPets,
-          prefMinAge,
-          prefMaxAge,
-        } = req.body;
-
-        await tx.insert(roommate).values({
-          propertyId: newProp.insertId,
-          occupation,
-          education,
-          age: parseInt(age),
-          gender,
-          faculty: faculty || "Others",
-          isSmoker: isSmoker === "true",
-          hasPets: hasPets === "true",
-          prefMinAge: parseInt(prefMinAge),
-          prefMaxAge: parseInt(prefMaxAge),
-        });
-      }
     });
 
     res.status(201).json({ message: "Property added successfully." });

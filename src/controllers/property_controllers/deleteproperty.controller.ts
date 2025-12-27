@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { db } from "../../db/index";
 import { and, eq, is } from "drizzle-orm";
-import { properties, roommate } from "../../db/schema";
+import { properties } from "../../db/schema";
 import fs from "fs";
 
 export const deleteProperty = async (req: any, res: Response) => {

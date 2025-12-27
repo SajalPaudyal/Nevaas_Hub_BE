@@ -33,13 +33,4 @@ export const properties = mysqlTable("properties", {
   badge: varchar("badge", { length: 50 }),
   latitude: varchar("latitude", { length: 50 }).notNull(),
   longitude: varchar("longitude", { length: 50 }).notNull(),
-
-  isRoommateOption: boolean("is_roommate_option").default(false),
 });
-
-export const propertiesRelations = relations(properties, ({ one }) => ({
-  roommateDetails: one(roommate, {
-    fields: [properties.id],
-    references: [roommate.propertyId],
-  }),
-}));

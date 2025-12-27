@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { db } from "../../db/index";
 import { and, eq, is } from "drizzle-orm";
-import { properties, roommate } from "../../db/schema";
+import { properties } from "../../db/schema";
 import fs from "fs";
 import path from "path";
 
@@ -30,8 +30,10 @@ export const updateProperty = async (req: any, res: Response) => {
       beds,
       baths,
       type,
-      isRoommateOption,
-    } = req.body;
+      badge,
+      latitude,
+      longitude,
+    } = req.body || {};
 
     await db.transaction(async (tx) => {
       let finalImageUrl = existing.imageUrl;
@@ -56,49 +58,19 @@ export const updateProperty = async (req: any, res: Response) => {
       await tx
         .update(properties)
         .set({
-          title,
-          description,
-          price,
-          address,
-          type,
+          title: title || undefined,
+          description: description || undefined,
+          price: price || undefined,
+          address: address || undefined,
+          beds: beds ? parseInt(beds) : undefined,
+          baths: baths ? parseInt(baths) : undefined,
+          type: type || undefined,
           imageUrl: finalImageUrl,
-          beds: parseInt(beds),
-          baths: parseInt(baths),
-          isRoommateOption: isRoommateOption === "true",
+          badge: badge || undefined,
+          latitude: latitude || undefined,
+          longitude: longitude || undefined,
         })
         .where(eq(properties.id, propertyId));
-
-      if (isRoommateOption === "true") {
-        const {
-          occupation,
-          education,
-          faculty,
-          isSmoker,
-          hasPets,
-          prefMaxAge,
-          prefMinAge,
-          prefGender,
-          age,
-          gender,
-        } = req.body;
-
-        await tx.delete(roommate).where(eq(roommate.propertyId, propertyId));
-        await tx.insert(roommate).values({
-          propertyId,
-          occupation,
-          education,
-          faculty,
-          age: parseInt(age),
-          gender,
-          isSmoker: isSmoker === "true",
-          hasPets: hasPets === "true",
-          prefMinAge: parseInt(prefMinAge),
-          prefMaxAge: parseInt(prefMaxAge),
-          prefGender,
-        });
-      } else {
-        await tx.delete(roommate).where(eq(roommate.propertyId, propertyId));
-      }
     });
 
     res.status(200).json({ message: "Property updated successfully" });
