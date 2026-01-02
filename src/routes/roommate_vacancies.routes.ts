@@ -7,24 +7,29 @@ import { deleteRoommateOpening } from "../controllers/roommate_controllers/delet
 import {
   getAllRoommateOpenings,
   getSingleRoommateOpening,
+  getMyRoommateOpenings,
 } from "../controllers/roommate_controllers/getroommate.controller";
 
 const router: Router = Router();
 
+router.get("/my-openings", checkAuthenticatedUsers, getMyRoommateOpenings);
 router.get("/", getAllRoommateOpenings);
 router.get("/:id", getSingleRoommateOpening);
+
 router.post(
   "/",
   checkAuthenticatedUsers,
   upload.single("roommateOpeningImage"),
   createRoommateOpening
 );
+
 router.put(
   "/:id",
   checkAuthenticatedUsers,
   upload.single("roommateOpeningImage"),
   updateRoommateOpening
 );
+
 router.delete("/:id", checkAuthenticatedUsers, deleteRoommateOpening);
 
 export default router;

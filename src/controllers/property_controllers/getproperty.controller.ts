@@ -45,3 +45,18 @@ export const getSingleProperty = async (req: any, res: Response) => {
       .json({ message: "could not get the property", error: e.message });
   }
 };
+
+export const getUserProperties = async (req: any, res: Response) => {
+  try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Sign in, please" });
+    }
+    const myProperties = await db
+      .select()
+      .from(properties)
+      .where(eq(properties.ownerId, userId));
+    return res.json(myProperties);
+  } catch (e: any) {}
+};

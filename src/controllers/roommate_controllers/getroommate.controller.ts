@@ -30,3 +30,18 @@ export const getSingleRoommateOpening = async (req: any, res: Response) => {
       .json({ message: "Could not fetch data.", error: e.message });
   }
 };
+
+export const getMyRoommateOpenings = async (req: any, res: Response) => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) return res.status(401).json({ message: "Unauthorized" });
+
+    const data = await db
+      .select()
+      .from(roommate)
+      .where(eq(roommate.ownerId, userId));
+    res.json(data);
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+};

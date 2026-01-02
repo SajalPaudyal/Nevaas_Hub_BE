@@ -12,7 +12,7 @@ export const login = async (req: Request, res: Response) => {
 
     const [user] = await db.select().from(users).where(eq(users.email, email));
     if (!user) {
-      return res.status(401).json({ message: "Invalid email of password." });
+      return res.status(401).json({ message: "Invalid email or password." });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -31,13 +31,16 @@ export const login = async (req: Request, res: Response) => {
       { expiresIn: "24h" }
     );
 
-    res
-      .status(200)
-      .json({
-        message: "Successfully Logged In",
-        token,
-        user: { id: user.id, name: user.fullName },
-      });
+    res.status(200).json({
+      message: "Successfully Logged In",
+      token,
+      user: {
+        id: user.id,
+        name: user.fullName,
+        role: user.role,
+        status: user.status,
+      },
+    });
   } catch (e: any) {
     res.status(500).json({ message: e.message });
   }

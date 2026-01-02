@@ -5,6 +5,7 @@ import { checkAuthenticatedUsers } from "../middlewares/checkAuthenticatedUsers"
 import {
   getAllProperties,
   getSingleProperty,
+  getUserProperties,
 } from "../controllers/property_controllers/getproperty.controller";
 import { createProperty } from "../controllers/property_controllers/createproperty.controller";
 import { updateProperty } from "../controllers/property_controllers/updateproperty.controller";
@@ -13,6 +14,7 @@ import { deleteProperty } from "../controllers/property_controllers/deleteproper
 const router: Router = Router();
 
 router.get("/", getAllProperties);
+router.get("/my-properties", checkAuthenticatedUsers, getUserProperties);
 router.get("/:id", getSingleProperty);
 
 router.post(
