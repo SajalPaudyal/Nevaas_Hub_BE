@@ -1,0 +1,719 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: NivaasHub
+meta:
+  id: wrk_8b64c181ea284b928b84efba6d205e2f
+  created: 1766616937804
+  modified: 1766662538772
+  description: ""
+collection:
+  - url: http://localhost:5000/
+    name: Port testing
+    meta:
+      id: req_3261f6a8d60c41829d540c379f0359d4
+      created: 1766617151072
+      modified: 1766662547744
+      isPrivate: false
+      description: ""
+      sortKey: -1766617151072
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - name: User
+    meta:
+      id: fld_838e89e001f04200a0e3add8bbab982a
+      created: 1766866505048
+      modified: 1766866505048
+      sortKey: -1766866505048
+      description: ""
+    children:
+      - url: http://localhost:5000/api/auth/register
+        name: Register A User
+        meta:
+          id: req_29bf721b94a746009010ada3ed357231
+          created: 1766616937809
+          modified: 1767015946077
+          isPrivate: false
+          description: ""
+          sortKey: -1766866513062
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: fullName
+              value: Test User
+              description: ""
+              disabled: false
+            - name: email
+              value: testuser@mail.com
+              description: ""
+              disabled: false
+            - name: password
+              value: testme123
+              description: ""
+              disabled: false
+            - name: idCard
+              value: ""
+              description: ""
+              disabled: false
+              fileName: /run/user/1000/doc/30e186a2/citizenship.jpg
+              type: file
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5000/api/auth/login
+        name: Login a User
+        meta:
+          id: req_5b2ff704d677451594f004acfdf3b6ff
+          created: 1766662673710
+          modified: 1767021843286
+          isPrivate: false
+          description: ""
+          sortKey: -1766866513162
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email":"testemail@mail.com",
+            	"password":"testme123"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5000/api/auth/user
+        name: User Private Route
+        meta:
+          id: req_61c388cf86664a9f82dade019182275e
+          created: 1766662811870
+          modified: 1766866556981
+          isPrivate: false
+          description: ""
+          sortKey: -1766866513362
+        method: GET
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.(your entire token).je1XbGsfC30VeHyyzeTWym8bDwwJiRiRpwy_4PD_9Ns
+          prefix: authorization
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5000/api/auth/login
+        name: Admin Login
+        meta:
+          id: req_981002d71e60448980b11f59d2dc52a1
+          created: 1766866471014
+          modified: 1766866729065
+          isPrivate: false
+          description: ""
+          sortKey: -1766866513262
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email":"admin@nivaashub.com",
+            	"password":"admin@123"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Properties
+    meta:
+      id: fld_955533ff965243909d29ab22b8fcc268
+      created: 1766866535483
+      modified: 1766866535483
+      sortKey: -1766866535483
+      description: ""
+    children:
+      - url: http://localhost:5000/api/properties
+        name: Create a Property
+        meta:
+          id: req_f7d7be9184bc4163a84a57bda1069acb
+          created: 1766684563160
+          modified: 1767049333731
+          isPrivate: false
+          description: ""
+          sortKey: -1766866546439
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: title
+              value: Modern Dekocha Apartment
+              description: ""
+              disabled: false
+            - name: description
+              value: A beautiful 2 bed room apartment in the heart of the city.
+              description: ""
+              disabled: false
+            - name: price
+              value: "28000"
+              description: ""
+              disabled: false
+            - name: address
+              value: Dekocha, Bhaktapur, Nepal
+              description: ""
+              disabled: false
+            - name: beds
+              value: "2"
+              description: ""
+              disabled: false
+            - name: baths
+              value: "1"
+              description: ""
+              disabled: false
+            - name: type
+              value: apartment
+              description: ""
+              disabled: false
+            - name: propertyImage
+              value: ""
+              description: ""
+              disabled: false
+              fileName: /run/user/1000/doc/8d28b775/back.jpg
+              type: file
+            - name: badge
+              value: New
+              description: ""
+              disabled: false
+            - name: latitude
+              value: "40.7128"
+              description: ""
+              disabled: false
+            - name: longitude
+              value: "-74.0231"
+              description: ""
+              disabled: false
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.(your entire token).CMPGoH8UiHWm2XbC7Ky75sWitxu9eX4Z2LBbSX1Cs88
+          prefix: authorization
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5000/api/properties/
+        name: Get All Properties
+        meta:
+          id: req_420c28f2abaf482bb3f55af7b991336b
+          created: 1766773535054
+          modified: 1766866827184
+          isPrivate: false
+          description: ""
+          sortKey: -1766866546339
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5000/api/properties/5
+        name: Get Single Property
+        meta:
+          id: req_02b742140cc5467ba2e566d0f300c882
+          created: 1766867022676
+          modified: 1766867044365
+          isPrivate: false
+          description: ""
+          sortKey: -1766867022676
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5000/api/properties/5
+        name: Delete Property
+        meta:
+          id: req_c95ec857cd234a19ab438e7042a30110
+          created: 1766867055661
+          modified: 1766867180916
+          isPrivate: false
+          description: ""
+          sortKey: -1766867055661
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.(your entire token).K6eyDFWoCgH62uDgv_W3zmyliA78qB-j19tFROQZwW0
+          prefix: authorization
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5000/api/properties/6
+        name: Update a Property
+        meta:
+          id: req_4ca62511e21d4d2ea96fabee19366b64
+          created: 1766867248712
+          modified: 1766867886268
+          isPrivate: false
+          description: ""
+          sortKey: -1766866546389
+        method: PUT
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: title
+              value: Bhaktapur Appartment
+              description: ""
+              disabled: false
+            - name: description
+              value: test bhaktapur
+              description: ""
+              disabled: false
+            - name: price
+              value: "28000"
+              description: ""
+              disabled: false
+            - name: address
+              value: Bhaktapur, Nepal
+              description: ""
+              disabled: false
+            - name: beds
+              value: "2"
+              description: ""
+              disabled: false
+            - name: baths
+              value: "1"
+              description: ""
+              disabled: false
+            - name: type
+              value: apartment
+              description: ""
+              disabled: false
+            - name: propertyImage
+              value: ""
+              description: ""
+              disabled: false
+              fileName: /run/user/1000/doc/a00ed547/apartment.jpg
+              type: file
+            - name: badge
+              value: New
+              description: ""
+              disabled: false
+            - name: latitude
+              value: "40.7128"
+              description: ""
+              disabled: false
+            - name: longitude
+              value: "-74.0231"
+              description: ""
+              disabled: false
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.(your entire token).K6eyDFWoCgH62uDgv_W3zmyliA78qB-j19tFROQZwW0
+          prefix: authorization
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Roommate
+    meta:
+      id: fld_69928642c9f4428888aa60d81222d9cb
+      created: 1766866541263
+      modified: 1766866541263
+      sortKey: -1766866541263
+      description: ""
+    children:
+      - url: http://localhost:5000/api/roommate-openings
+        name: Create A Roommate Vacancy
+        meta:
+          id: req_3f4537f43a644e69b50bc2e7cdf75cc1
+          created: 1766868212097
+          modified: 1766869620836
+          isPrivate: false
+          description: ""
+          sortKey: -1766868212097
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: title
+              value: "A roommate required "
+              description: ""
+              disabled: false
+            - name: price
+              value: "12000"
+              description: ""
+              disabled: false
+            - name: address
+              value: Bhaktapur, Nepal
+              description: ""
+              disabled: false
+            - name: latitude
+              value: "70.53"
+              description: ""
+              disabled: false
+            - name: longitude
+              value: "-60.34"
+              description: ""
+              disabled: false
+            - name: beds
+              value: "2"
+              description: ""
+              disabled: false
+            - name: baths
+              value: "1"
+              description: ""
+              disabled: false
+            - name: age
+              value: "23"
+              description: ""
+              disabled: false
+            - name: gender
+              value: male
+              description: ""
+              disabled: false
+            - name: faculty
+              value: science
+              description: ""
+              disabled: false
+            - name: education
+              value: high-school
+              description: ""
+              disabled: false
+            - name: isSmoker
+              value: "false"
+              description: ""
+              disabled: false
+            - name: hasPets
+              value: "false"
+              description: ""
+              disabled: false
+            - name: prefGender
+              value: male
+              description: ""
+              disabled: false
+            - name: prefMinAge
+              value: "23"
+              description: ""
+              disabled: false
+            - name: prefMaxAge
+              value: "28"
+              description: ""
+              disabled: false
+            - name: roommateOpeningImage
+              value: ""
+              description: ""
+              disabled: false
+              fileName: /run/user/1000/doc/a00ed547/apartment.jpg
+              type: file
+            - name: occupation
+              value: student
+              description: ""
+              disabled: false
+            - name: description
+              value: ""
+              description: ""
+              disabled: false
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.(your entire token).K6eyDFWoCgH62uDgv_W3zmyliA78qB-j19tFROQZwW0
+          prefix: authorization
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5000/api/roommate-openings/2
+        name: Delete A Roommate Vacancy
+        meta:
+          id: req_3f185c7e8fa44d5194875be25059591e
+          created: 1766868242728
+          modified: 1766869936984
+          isPrivate: false
+          description: ""
+          sortKey: -1766868242728
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.(your entire token).K6eyDFWoCgH62uDgv_W3zmyliA78qB-j19tFROQZwW0
+          prefix: authorization
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5000/api/roommate-openings/
+        name: Get All Roommate Vacancies
+        meta:
+          id: req_d36756e3673f4a3e9a85477cf9da7210
+          created: 1766868256940
+          modified: 1766869756539
+          isPrivate: false
+          description: ""
+          sortKey: -1766868256940
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5000/api/roommate-openings/2
+        name: Get A Single Roommate Vacancy
+        meta:
+          id: req_51e37e0ef1ad427fb4e68b5635c92023
+          created: 1766868266932
+          modified: 1766869771234
+          isPrivate: false
+          description: ""
+          sortKey: -1766868266932
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5000/api/roommate-openings/2
+        name: Update a Roommate Vacancy
+        meta:
+          id: req_067b33909f814d65846d806d4b3cd441
+          created: 1766869638930
+          modified: 1766869724215
+          isPrivate: false
+          description: ""
+          sortKey: -1766867633879
+        method: PUT
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: title
+              value: "A roommate required "
+              description: ""
+              disabled: false
+            - name: description
+              value: something different
+              description: ""
+              disabled: false
+            - name: address
+              value: Bhaktapur, Nepal
+              description: ""
+              disabled: false
+            - name: occupation
+              value: student
+              description: ""
+              disabled: false
+            - name: latitude
+              value: "70.53"
+              description: ""
+              disabled: false
+            - name: longitude
+              value: "-60.34"
+              description: ""
+              disabled: false
+            - name: beds
+              value: "2"
+              description: ""
+              disabled: false
+            - name: baths
+              value: "1"
+              description: ""
+              disabled: false
+            - name: age
+              value: "23"
+              description: ""
+              disabled: false
+            - name: gender
+              value: male
+              description: ""
+              disabled: false
+            - name: faculty
+              value: science
+              description: ""
+              disabled: false
+            - name: education
+              value: high-school
+              description: ""
+              disabled: false
+            - name: isSmoker
+              value: "false"
+              description: ""
+              disabled: false
+            - name: hasPets
+              value: "false"
+              description: ""
+              disabled: false
+            - name: prefGender
+              value: male
+              description: ""
+              disabled: false
+            - name: prefMinAge
+              value: "23"
+              description: ""
+              disabled: false
+            - name: prefMaxAge
+              value: "28"
+              description: ""
+              disabled: false
+            - name: roommateOpeningImage
+              value: ""
+              description: ""
+              disabled: false
+              fileName: /run/user/1000/doc/a00ed547/apartment.jpg
+              type: file
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.(your entire token).K6eyDFWoCgH62uDgv_W3zmyliA78qB-j19tFROQZwW0
+          prefix: authorization
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_6322fcd694e42bcb3deb4fe0e471f04345160eb5
+    created: 1766616937807
+    modified: 1766616937807
+environments:
+  name: Base Environment
+  meta:
+    id: env_6322fcd694e42bcb3deb4fe0e471f04345160eb5
+    created: 1766616937806
+    modified: 1766616937806
+    isPrivate: false
